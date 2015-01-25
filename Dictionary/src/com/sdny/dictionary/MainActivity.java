@@ -3,8 +3,10 @@ package com.sdny.dictionary;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class MainActivity extends Activity {
 
@@ -22,4 +24,18 @@ public class MainActivity extends Activity {
 	        }
 	    });
 	}
+
+
+    private String url = "https://glosbe.com/gapi/translate?from=pol&dest=eng&format=json&pretty=true&phrase=";
+    private HandleJSON obj;
+
+    public String getMeaning(String input){
+        String finalUrl = url + input;
+        obj = new HandleJSON(finalUrl);
+        obj.fetchJSON();
+
+        while(obj.parsingComplete);
+        return obj.getTextMeaning();
+    }
 }
+
