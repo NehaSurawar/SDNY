@@ -1,5 +1,7 @@
 package com.sdny.dictionary;
 
+import java.util.ArrayList;
+
 import android.app.Service;
 import android.content.ClipData;
 import android.content.ClipDescription;
@@ -43,7 +45,20 @@ public class WordListener extends Service {
 		if (cb.hasPrimaryClip()) {
 			ClipData cd = cb.getPrimaryClip();
 			if (cd.getDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
-				word = (String) cb.getPrimaryClip().toString();
+				String data = (String) cb.getPrimaryClip().toString();
+				boolean flag = false;
+				for (int i = 0; i < data.length(); i++){
+				    char c = data.charAt(i);
+				    if(flag == true && c == '}')
+				    	flag = false;
+				    if(flag == true){
+			    		if(word == null)
+			    			word = new String();
+				    	word = word + c;
+				    }
+				    if(c == ':')
+				    	flag = true;
+				}
 			}
 		}
 		return word;
